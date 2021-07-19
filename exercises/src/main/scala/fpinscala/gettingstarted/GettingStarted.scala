@@ -130,22 +130,53 @@ object PolymorphicFunctions {
         val mid2 = (low + high) / 2
         val a = as(mid2)
         val greater = gt(a, key)
-        if (!greater && !gt(key,a)) mid2
-        else if (greater) go(low, mid2, mid2-1)
+        if (!greater && !gt(key, a)) mid2
+        else if (greater) go(low, mid2, mid2 - 1)
         else go(mid2 + 1, mid2, high)
       }
     }
+
     go(0, 0, as.length - 1)
   }
 
   // Exercise 2: Implement a polymorphic function to check whether
   // an `Array[A]` is sorted
-  def isSorted[A](as: Array[A], gt: (A,A) => Boolean): Boolean = ???
+  def isSorted[A](as: Array[A], gt: (A, A) => Boolean): Boolean = {
+    @annotation.tailrec
+    // n is index of the array "as: Array[A]"
+    def loop(n: Int): Boolean = {
+      if (n >= as.length - 1) true
+      else if (gt(as(n), as(n + 1))) loop(n + 1)
+      else false
+    }
+
+    loop(0)
+  }
+
+  def isSortedAnswer[A](as: Array[A], gt: (A, A) => Boolean): Boolean = {
+    @annotation.tailrec
+    def go(n: Int): Boolean =
+      if (n >= as.length - 1) true
+      else if (gt(as(n), as(n + 1))) false
+      else go(n + 1)
+
+    go(0)
+  }
+
+  def main(args: Array[String]): Unit = {
+    println(isSorted[Int](Array(1, 2, 3), (x: Int, y: Int) => x < y)) // Should be true
+    println(isSorted[Int](Array(1, 2, 3), _ < _)) // Should be true
+    println(isSorted[Int](Array(3, 2, 1), _ < _)) // Should be false
+    println("-----")
+    println(isSortedAnswer[Int](Array(1, 2, 3), (x: Int, y: Int) => x < y)) // Should be true
+    println(isSortedAnswer[Int](Array(1, 2, 3), _ < _)) // Should be true
+    println(isSortedAnswer[Int](Array(3, 2, 1), _ < _)) // Should be false
+  }
 
   // Polymorphic functions are often so constrained by their type
   // that they only have one implementation! Here's an example:
 
-  def partial1[A,B,C](a: A, f: (A,B) => C): B => C =
+  def partial1[A, B, C](a: A, f: (A, B) => C): B => C =
     (b: B) => f(a, b)
 
   // Exercise 3: Implement `curry`.
