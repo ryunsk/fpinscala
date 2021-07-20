@@ -163,15 +163,15 @@ object PolymorphicFunctions {
     go(0)
   }
 
-  def main(args: Array[String]): Unit = {
-    println(isSorted[Int](Array(1, 2, 3), (x: Int, y: Int) => x < y)) // Should be true
-    println(isSorted[Int](Array(1, 2, 3), _ < _)) // Should be true
-    println(isSorted[Int](Array(3, 2, 1), _ < _)) // Should be false
-    println("-----")
-    println(isSortedAnswer[Int](Array(1, 2, 3), (x: Int, y: Int) => x < y)) // Should be true
-    println(isSortedAnswer[Int](Array(1, 2, 3), _ < _)) // Should be true
-    println(isSortedAnswer[Int](Array(3, 2, 1), _ < _)) // Should be false
-  }
+  //  def main(args: Array[String]): Unit = {
+  //    println(isSorted[Int](Array(1, 2, 3), (x: Int, y: Int) => x < y)) // Should be true
+  //    println(isSorted[Int](Array(1, 2, 3), _ < _)) // Should be true
+  //    println(isSorted[Int](Array(3, 2, 1), _ < _)) // Should be false
+  //    println("-----")
+  //    println(isSortedAnswer[Int](Array(1, 2, 3), (x: Int, y: Int) => x < y)) // Should be true
+  //    println(isSortedAnswer[Int](Array(1, 2, 3), _ < _)) // Should be true
+  //    println(isSortedAnswer[Int](Array(3, 2, 1), _ < _)) // Should be false
+  //  }
 
   // Polymorphic functions are often so constrained by their type
   // that they only have one implementation! Here's an example:
@@ -183,13 +183,16 @@ object PolymorphicFunctions {
 
   // Note that `=>` associates to the right, so we could
   // write the return type as `A => B => C`
-  def curry[A,B,C](f: (A, B) => C): A => (B => C) =
+  def curry[A, B, C](f: (A, B) => C): A => (B => C) =
     ???
+
+  def main(args: Array[String]): Unit = {
+  }
 
   // NB: The `Function2` trait has a `curried` method already
 
   // Exercise 4: Implement `uncurry`
-  def uncurry[A,B,C](f: A => B => C): (A, B) => C =
+  def uncurry[A, B, C](f: A => B => C): (A, B) => C =
     ???
 
   /*
