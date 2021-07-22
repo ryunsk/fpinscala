@@ -93,6 +93,21 @@ object List { // `List` companion object. Contains functions for creating and wo
       case Cons(x, xs) => f(x, foldRight(xs, z)(f))
     }
 
+  def append2[A](l: List[A], r: List[A]): List[A] =
+    foldRight(l, r)(Cons(_, _))
+
+  def main(args: Array[String]): Unit = {
+    //    println(tail(List(1, 2, 3, 4)))
+    //    println(setHead(List(1, 2, 3, 4), 5))
+    //    println(init(List(1, 2, 3, 4)))
+    //    println(foldRight(List(1, 2, 3), Nil: List[Int])(Cons(_, _)))
+    //    println(sum3(List(1, 2, 3, 4)))
+    //    println(product3(List(1, 2, 3, 4)))
+    //    println(length3(List(1, 2, 3, 4)))
+    //    println(reverse(List(1, 2, 3)))
+    println(append2(List(1, 2), List(10, 11)))
+  }
+
   def foldLeft[A, B](l: List[A], z: B)(f: (B, A) => B): B =
     l match {
       case Nil => z
@@ -108,16 +123,13 @@ object List { // `List` companion object. Contains functions for creating and wo
   def length3[A](l: List[A]): Int =
     foldRight(l, 0)((_, acc) => acc + 1)
 
+  def reverse[A](l: List[A]): List[A] =
+  //    foldLeft(l, Nil)(Cons(A,l))
+    foldLeft(l, Nil: List[A])((acc, h) => Cons(h, acc)
+  //  foldLeft(l, List[A]())((acc, h) => Cons(h, acc))
+
 
   def map[A, B](l: List[A])(f: A => B): List[B] = ???
 
-  def main(args: Array[String]): Unit = {
-    //    println(tail(List(1, 2, 3, 4)))
-    //    println(setHead(List(1, 2, 3, 4), 5))
-    //    println(init(List(1, 2, 3, 4)))
-    //    println(foldRight(List(1, 2, 3), Nil: List[Int])(Cons(_, _)))
-    println(sum3(List(1, 2, 3, 4)))
-    println(product3(List(1, 2, 3, 4)))
-    println(length3(List(1, 2, 3, 4)))
-  }
+
 }
