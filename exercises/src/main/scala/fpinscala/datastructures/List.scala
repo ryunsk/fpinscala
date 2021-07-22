@@ -58,26 +58,41 @@ object List { // `List` companion object. Contains functions for creating and wo
 
 
   def setHead[A](l: List[A], h: A): List[A] =
-//    Cons(h,tail(l))
-  l match {
-    case Cons(_,t)=>Cons(h,t)
+  //    Cons(h,tail(l))
+    l match {
+      case Cons(_, t) => Cons(h, t)
       // test commit
+    }
+
+  def drop[A](l: List[A], n: Int): List[A] = {
+    if (n <= 0) l
+    else l match {
+      case Nil => Nil
+      case Cons(_, t) => drop(t, n - 1)
+    }
   }
 
-  def drop[A](l: List[A], n: Int): List[A] = ???
+  def dropWhile[A](l: List[A], f: A => Boolean): List[A] =
+    l match {
+      case Cons(h, t) if f(h) => dropWhile(t, f)
+      case _ => l
+    }
 
-  def dropWhile[A](l: List[A], f: A => Boolean): List[A] = ???
-
-  def init[A](l: List[A]): List[A] = ???
+  def init[A](l: List[A]): List[A] =
+    l match {
+      case Cons(_, Nil) => Nil
+      case Cons(h, t) => Cons(h, init(t))
+    }
 
   def length[A](l: List[A]): Int = ???
 
-  def foldLeft[A,B](l: List[A], z: B)(f: (B, A) => B): B = ???
+  def foldLeft[A, B](l: List[A], z: B)(f: (B, A) => B): B = ???
 
-  def map[A,B](l: List[A])(f: A => B): List[B] = ???
+  def map[A, B](l: List[A])(f: A => B): List[B] = ???
 
   def main(args: Array[String]): Unit = {
-    println(tail(List(1,2,3,4)))
-    println(setHead(List(1,2,3,4), 5))
+    //    println(tail(List(1, 2, 3, 4)))
+    //    println(setHead(List(1, 2, 3, 4), 5))
+    println(init(List(1, 2, 3, 4)))
   }
 }
