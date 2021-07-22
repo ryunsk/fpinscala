@@ -37,10 +37,10 @@ object List { // `List` companion object. Contains functions for creating and wo
       case Cons(h,t) => Cons(h, append(t, a2))
     }
 
-  def foldRight[A,B](as: List[A], z: B)(f: (A, B) => B): B = // Utility functions
+  def foldRight2[A, B](as: List[A], z: B)(f: (A, B) => B): B = // Utility functions
     as match {
       case Nil => z
-      case Cons(x, xs) => f(x, foldRight(xs, z)(f))
+      case Cons(x, xs) => f(x, foldRight2(xs, z)(f))
     }
 
   def sum2(ns: List[Int]) =
@@ -84,15 +84,40 @@ object List { // `List` companion object. Contains functions for creating and wo
       case Cons(h, t) => Cons(h, init(t))
     }
 
-  def length[A](l: List[A]): Int = ???
+  def length[A](l: List[A]): Int =
+    foldRight(l, 0)((_, acc) => acc + 1)
 
-  def foldLeft[A, B](l: List[A], z: B)(f: (B, A) => B): B = ???
+  def foldRight[A, B](as: List[A], z: B)(f: (A, B) => B): B = // Utility functions
+    as match {
+      case Nil => z
+      case Cons(x, xs) => f(x, foldRight(xs, z)(f))
+    }
+
+  def foldLeft[A, B](l: List[A], z: B)(f: (B, A) => B): B =
+    l match {
+      case Nil => z
+      case Cons(h, t) => foldLeft(t, f(z, h))(f)
+    }
+
+  def sum3(ns: List[Int]) =
+    foldLeft(ns, 0)(_ + _)
+
+  def product3(ns: List[Double]) =
+    foldLeft(ns, 1.0)(_ * _)
+
+  def length3[A](l: List[A]): Int =
+    foldRight(l, 0)((_, acc) => acc + 1)
+
 
   def map[A, B](l: List[A])(f: A => B): List[B] = ???
 
   def main(args: Array[String]): Unit = {
     //    println(tail(List(1, 2, 3, 4)))
     //    println(setHead(List(1, 2, 3, 4), 5))
-    println(init(List(1, 2, 3, 4)))
+    //    println(init(List(1, 2, 3, 4)))
+    //    println(foldRight(List(1, 2, 3), Nil: List[Int])(Cons(_, _)))
+    println(sum3(List(1, 2, 3, 4)))
+    println(product3(List(1, 2, 3, 4)))
+    println(length3(List(1, 2, 3, 4)))
   }
 }
