@@ -1,7 +1,9 @@
 package fpinscala.datastructures
 
 sealed trait List[+A] // `List` data type, parameterized on a type, `A`
+
 case object Nil extends List[Nothing] // A `List` data constructor representing the empty list
+
 /* Another data constructor, representing nonempty lists. Note that `tail` is another `List[A]`,
 which may be `Nil` or another `Cons`.
  */
@@ -134,6 +136,9 @@ object List { // `List` companion object. Contains functions for creating and wo
   def map[A, B](l: List[A])(f: A => B): List[B] =
     foldRight(l, Nil: List[B])((h, t) => Cons(f(h), t))
 
+  def filter[A](l: List[A])(f: A => Boolean): List[A] =
+    foldRight(l, Nil: List[A])((h, t) => if (f(h)) Cons(h, t) else t)
+
   def main(args: Array[String]): Unit = {
     //    println(tail(List(1, 2, 3, 4)))
     //    println(setHead(List(1, 2, 3, 4), 5))
@@ -147,7 +152,8 @@ object List { // `List` companion object. Contains functions for creating and wo
     //    println(append2(List(1, 2), List(10, 11)))
     //    println(concat(List(List(1, 2), List(3, 4))))
     //    println(addOne(List(1, 2, 3)))
-    println(doubleListToString(List(1.1, 2.3, 4.5)))
+    //    println(doubleListToString(List(1.1, 2.3, 4.5)))
+    //    println(filter(List(1, 2, 3, 4, 5, 6))(x => x % 2 != 0))
   }
 
 }
