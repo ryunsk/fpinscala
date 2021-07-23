@@ -96,17 +96,6 @@ object List { // `List` companion object. Contains functions for creating and wo
   def append2[A](l: List[A], r: List[A]): List[A] =
     foldRight(l, r)(Cons(_, _))
 
-  def main(args: Array[String]): Unit = {
-    //    println(tail(List(1, 2, 3, 4)))
-    //    println(setHead(List(1, 2, 3, 4), 5))
-    //    println(init(List(1, 2, 3, 4)))
-    //    println(foldRight(List(1, 2, 3), Nil: List[Int])(Cons(_, _)))
-    //    println(sum3(List(1, 2, 3, 4)))
-    //    println(product3(List(1, 2, 3, 4)))
-    //    println(length3(List(1, 2, 3, 4)))
-    //    println(reverse(List(1, 2, 3)))
-    println(append2(List(1, 2), List(10, 11)))
-  }
 
   def foldLeft[A, B](l: List[A], z: B)(f: (B, A) => B): B =
     l match {
@@ -125,11 +114,27 @@ object List { // `List` companion object. Contains functions for creating and wo
 
   def reverse[A](l: List[A]): List[A] =
   //    foldLeft(l, Nil)(Cons(A,l))
-    foldLeft(l, Nil: List[A])((acc, h) => Cons(h, acc)
+    foldLeft(l, Nil: List[A])((acc, h) => Cons(h, acc))
   //  foldLeft(l, List[A]())((acc, h) => Cons(h, acc))
 
+  def concat[A](l: List[List[A]]): List[A] =
+  // List of lists into a single list. Runtime should be linear in the total length of all lists.
+    foldRight(l, Nil: List[A])(append)
 
   def map[A, B](l: List[A])(f: A => B): List[B] = ???
 
+  def main(args: Array[String]): Unit = {
+    //    println(tail(List(1, 2, 3, 4)))
+    //    println(setHead(List(1, 2, 3, 4), 5))
+    //    println(init(List(1, 2, 3, 4)))
+    //    println(foldRight(List(1, 2, 3), Nil: List[Int])(Cons(_, _)))
+    //    println(foldRight(List(1, 2, 3), List(8, 9, 10))(Cons(_, _)))
+    //    println(sum3(List(1, 2, 3, 4)))
+    //    println(product3(List(1, 2, 3, 4)))
+    //    println(length3(List(1, 2, 3, 4)))
+    //    println(reverse(List(1, 2, 3)))
+    //    println(append2(List(1, 2), List(10, 11)))
+    println(concat(List(List(1, 2), List(3, 4))))
+  }
 
 }
