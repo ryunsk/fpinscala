@@ -96,7 +96,7 @@ object List { // `List` companion object. Contains functions for creating and wo
   def append2[A](l: List[A], r: List[A]): List[A] =
     foldRight(l, r)(Cons(_, _))
 
-
+  @annotation.tailrec
   def foldLeft[A, B](l: List[A], z: B)(f: (B, A) => B): B =
     l match {
       case Nil => z
@@ -117,11 +117,22 @@ object List { // `List` companion object. Contains functions for creating and wo
     foldLeft(l, Nil: List[A])((acc, h) => Cons(h, acc))
   //  foldLeft(l, List[A]())((acc, h) => Cons(h, acc))
 
-  def concat[A](l: List[List[A]]): List[A] =
-  // List of lists into a single list. Runtime should be linear in the total length of all lists.
-    foldRight(l, Nil: List[A])(append)
+  def concat[A](l: List[List[A]]): List[A] = {
+    // List of lists into a single list. Runtime should be linear in the total length of all lists.
+    // foldRight(l, Nil:List[A])(append) // Solution
+    foldRight(l, Nil: List[A])((x, y) => append2(x, y))
+  }
 
-  def map[A, B](l: List[A])(f: A => B): List[B] = ???
+  def addOne(l: List[Int]): List[Int] = {
+    foldRight(l, Nil: List[Int])((x, y) => Cons(x + 1, y))
+  }
+
+  def doubleListToString(l: List[Double]): List[String] = {
+    foldRight(l, Nil: List[String])((x, y) => Cons(x.toString, y))
+  }
+
+  def map[A, B](l: List[A])(f: A => B): List[B] =
+    foldRight(l, Nil: List[B])((h, t) => Cons(f(h), t))
 
   def main(args: Array[String]): Unit = {
     //    println(tail(List(1, 2, 3, 4)))
@@ -134,7 +145,9 @@ object List { // `List` companion object. Contains functions for creating and wo
     //    println(length3(List(1, 2, 3, 4)))
     //    println(reverse(List(1, 2, 3)))
     //    println(append2(List(1, 2), List(10, 11)))
-    println(concat(List(List(1, 2), List(3, 4))))
+    //    println(concat(List(List(1, 2), List(3, 4))))
+    //    println(addOne(List(1, 2, 3)))
+    println(doubleListToString(List(1.1, 2.3, 4.5)))
   }
 
 }
