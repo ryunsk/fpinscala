@@ -139,6 +139,10 @@ object List { // `List` companion object. Contains functions for creating and wo
   def filter[A](l: List[A])(f: A => Boolean): List[A] =
     foldRight(l, Nil: List[A])((h, t) => if (f(h)) Cons(h, t) else t)
 
+  // * Solution
+  def flatMap[A, B](as: List[A])(f: A => List[B]): List[B] =
+    concat(map(as)(f))
+
   def main(args: Array[String]): Unit = {
     //    println(tail(List(1, 2, 3, 4)))
     //    println(setHead(List(1, 2, 3, 4), 5))
@@ -154,6 +158,7 @@ object List { // `List` companion object. Contains functions for creating and wo
     //    println(addOne(List(1, 2, 3)))
     //    println(doubleListToString(List(1.1, 2.3, 4.5)))
     //    println(filter(List(1, 2, 3, 4, 5, 6))(x => x % 2 != 0))
+    //    println(flatMap(List(1, 2, 3))(i => List(i, i))) // should result in List(1,1,2,2,3,3)
   }
 
 }
